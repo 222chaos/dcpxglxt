@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Link from "next/link";
-
+import TrainingPlanTable from "./TrainingPlanTable";
+import React from "react";
 const HomePage = () => {
   const [selectedFunction, setSelectedFunction] = useState("");
 
@@ -13,7 +14,11 @@ const HomePage = () => {
       case "首页":
         return <div>首页内容</div>;
       case "培训计划管理":
-        return <div>培训计划管理内容</div>;
+        return (
+          <div>
+            <TrainingPlanTable />
+          </div>
+        );
       case "添加":
         return <div>添加内容</div>;
       case "修改":
