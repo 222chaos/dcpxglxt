@@ -18,7 +18,6 @@ const TrainingPlanTable = () => {
       participants: "100",
       completion: "未完成",
     },
-    // 添加更多培训计划数据
   ];
 
   const columns = [
@@ -74,12 +73,10 @@ const TrainingPlanTable = () => {
   ];
 
   const handleEdit = (id) => {
-    // 编辑逻辑
     console.log("编辑 ID:", id);
   };
 
   const handleDelete = (id) => {
-    // 删除逻辑
     console.log("删除 ID:", id);
   };
 
@@ -104,29 +101,6 @@ const TrainingPlanTable = () => {
           <Button key="button" icon={<PlusOutlined />} type="primary">
             新建
           </Button>,
-          <Dropdown
-            key="menu"
-            menu={{
-              items: [
-                {
-                  label: "1st item",
-                  key: "1",
-                },
-                {
-                  label: "2nd item",
-                  key: "2",
-                },
-                {
-                  label: "3rd item",
-                  key: "3",
-                },
-              ],
-            }}
-          >
-            <Button>
-              <EllipsisOutlined />
-            </Button>
-          </Dropdown>,
         ]}
       />
     </div>
