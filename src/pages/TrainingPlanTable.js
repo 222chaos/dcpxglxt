@@ -1,35 +1,65 @@
-import { Button, Space } from "antd";
-import { PlusOutlined } from "@ant-design/icons";
-import { useRef, useState } from "react";
+import React, { useRef, useState } from "react";
+import { Button } from "antd";
 import ProTable from "@ant-design/pro-table";
-import React from "react";
 
 const TrainingPlanTable = () => {
   const actionRef = useRef();
 
   const [editableKeys, setEditableKeys] = useState([]);
-  const [trainingPlanData, setTrainingPlanData] = useState([
-    {
-      id: 1,
-      year: 2023,
-      name: "新员工入厂培训",
-      type: "新员工入厂培训",
-      specialty: "电气   汽机   锅炉训",
-      time: "1月10日-1月20日",
-      participants: "100",
-      completion: "未完成",
-    },
-    {
-      id: 2,
-      year: 2023,
-      name: "新员工入厂培训",
-      type: "新员工入厂培训",
-      specialty: "电气   汽机   锅炉训",
-      time: "1月10日-1月20日",
-      participants: "100",
-      completion: "未完成",
-    },
-  ]);
+  const [trainingPlanData, setTrainingPlanData] = useState([]);
+
+  const handleSave = async (rowKeys, newData) => {
+    try {
+      const response = await fetch("/api/storage", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(newData), // 发送编辑后的数据给服务器
+      });
+
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+
+      const result = await response.json();
+      console.log("Server response:", result);
+
+      setEditableKeys([]); // 退出所有行的编辑状态
+    } catch (error) {
+      console.error("There was a problem with the fetch operation:", error);
+      // 处理错误，例如显示错误消息给用户
+    }
+  };
+  const handleEdit = (id) => {
+    const keys = editableKeys.includes(id)
+      ? editableKeys.filter((key) => key !== id)
+      : [...editableKeys, id];
+    setEditableKeys(keys);
+  };
+  const handleNew = () => {
+    const id = trainingPlanData.length + 1;
+
+    const newEmptyData = {
+      id,
+      year: "",
+      name: "",
+      type: "",
+      specialty: "",
+      time: "",
+      participants: "",
+      completion: "",
+    };
+
+    setTrainingPlanData([...trainingPlanData, newEmptyData]);
+    setEditableKeys([...editableKeys, id]);
+  };
+
+  const handleDelete = (id) => {
+    const updatedData = trainingPlanData.filter((item) => item.id !== id);
+    setTrainingPlanData(updatedData);
+    setEditableKeys(editableKeys.filter((key) => key !== id));
+  };
 
   const columns = [
     {
@@ -91,60 +121,6 @@ const TrainingPlanTable = () => {
       ],
     },
   ];
-
-  const handleEdit = (id) => {
-    const keys = editableKeys.includes(id)
-      ? editableKeys.filter((key) => key !== id)
-      : [...editableKeys, id];
-    setEditableKeys(keys);
-  };
-
-  const handleSave = async (rowKeys, newData) => {
-    try {
-      const editedRowIndex = rowKeys[0]; // 假设只有一行处于编辑状态
-      const editedRow = newData[editedRowIndex]; // 获取当前编辑的行数据
-
-      const response = await fetch("/api/storage", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(editedRow), // 发送当前编辑行的数据给服务器
-      });
-
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-
-      const result = await response.json();
-      console.log("Server response:", result);
-
-      setEditableKeys([]); // 退出所有行的编辑状态
-    } catch (error) {
-      console.error("There was a problem with the fetch operation:", error);
-      // 处理错误，例如显示错误消息给用户
-    }
-  };
-  const handleNew = () => {
-    const id = trainingPlanData.length + 1;
-    const newEmptyData = {
-      id,
-      year: "",
-      name: "",
-      type: "",
-      specialty: "",
-      time: "",
-      participants: "",
-      completion: "",
-    };
-    setTrainingPlanData([...trainingPlanData, newEmptyData]);
-    setEditableKeys([...editableKeys, id]);
-  };
-  const handleDelete = (id) => {
-    const updatedData = trainingPlanData.filter((item) => item.id !== id);
-    setTrainingPlanData(updatedData);
-    setEditableKeys(editableKeys.filter((key) => key !== id));
-  };
   return (
     <div>
       <ProTable
@@ -160,12 +136,7 @@ const TrainingPlanTable = () => {
           onChange: setEditableKeys,
         }}
         toolBarRender={() => [
-          <Button
-            key="button"
-            icon={<PlusOutlined />}
-            type="primary"
-            onClick={handleNew}
-          >
+          <Button key="button" type="primary" onClick={handleNew}>
             新建
           </Button>,
         ]}
