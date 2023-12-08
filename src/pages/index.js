@@ -19,14 +19,7 @@ const HomePage = () => {
             <TrainingPlanTable />
           </div>
         );
-      case "添加":
-        return <div>添加内容</div>;
-      case "修改":
-        return <div>修改内容</div>;
-      case "删除":
-        return <div>删除内容</div>;
-      case "查询":
-        return <div>查询内容</div>;
+
       case "培训成绩管理":
         return <div>培训成绩管理内容</div>;
       case "录入":
@@ -67,18 +60,6 @@ const HomePage = () => {
           </li>
           <li onClick={() => handleFunctionClick("培训计划管理")}>
             <Link href="#">培训计划管理</Link>
-          </li>
-          <li onClick={() => handleFunctionClick("添加")}>
-            <Link href="#">添加</Link>
-          </li>
-          <li onClick={() => handleFunctionClick("修改")}>
-            <Link href="#">修改</Link>
-          </li>
-          <li onClick={() => handleFunctionClick("删除")}>
-            <Link href="#">删除</Link>
-          </li>
-          <li onClick={() => handleFunctionClick("查询")}>
-            <Link href="#">查询</Link>
           </li>
           <li onClick={() => handleFunctionClick("培训成绩管理")}>
             <Link href="#">培训成绩管理</Link>

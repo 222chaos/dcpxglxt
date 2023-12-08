@@ -15,7 +15,7 @@ const TrainingPlanTable = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(newData), // 发送编辑后的数据给服务器
+        body: JSON.stringify(newData), // 将编辑后的数据发送给服务器
       });
 
       if (!response.ok) {
@@ -24,21 +24,22 @@ const TrainingPlanTable = () => {
 
       const result = await response.json();
       console.log("Server response:", result);
-
       setEditableKeys([]); // 退出所有行的编辑状态
     } catch (error) {
       console.error("There was a problem with the fetch operation:", error);
       // 处理错误，例如显示错误消息给用户
     }
   };
+
   const handleEdit = (id) => {
     const keys = editableKeys.includes(id)
       ? editableKeys.filter((key) => key !== id)
       : [...editableKeys, id];
     setEditableKeys(keys);
   };
+
   const handleNew = () => {
-    const id = trainingPlanData.length + 1;
+    const id = Date.now();
 
     const newEmptyData = {
       id,
@@ -121,12 +122,34 @@ const TrainingPlanTable = () => {
       ],
     },
   ];
+
   return (
     <div>
       <ProTable
         columns={columns}
         actionRef={actionRef}
-        dataSource={trainingPlanData}
+        request={async (params, _) => {
+          console.log(params);
+
+          const { current, pageSize } = params;
+
+          // 发起数据请求，包括分页和筛选信息
+          const data = await fetch(
+            `/api/query?current=${current}&pageSize=${pageSize}&status=true`,
+            {
+              method: "GET",
+              // 可以根据实际情况设置其他请求参数
+            }
+          );
+
+          const responseData = await data.json();
+
+          return {
+            data: responseData.data,
+            success: responseData.success,
+            total: responseData.total,
+          };
+        }}
         rowKey="id"
         editable={{
           type: "multiple",
