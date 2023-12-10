@@ -4,24 +4,44 @@ const pool = new Pool({
   connectionString: process.env.POSTGRES_URL + "?sslmode=require",
 });
 
-export default async function handleDelete(req, res) {
-  if (req.method === "PUT") {
-    const { id, status } = req.body;
+export default async function handler(req, res) {
+  if (req.method === "DELETE") {
+    try {
+      const { id } = req.body;
 
-    if (id !== undefined && status !== undefined) {
-      try {
-        const client = await pool.connect();
-        const query = "UPDATE dreams SET status = $1 WHERE id = $2";
-        const values = [status, id];
-        await client.query(query, values);
+      const client = await pool.connect();
 
-        client.release();
+      const query = `
+        DELETE FROM trainingplans WHERE id = $1
+        RETURNING *
+      `;
 
-        res.status(200).json({ message: "Record updated" });
-      } catch (error) {
-        console.error("Error updating record:", error);
-        res.status(500).json({ error: "Internal server error" });
+      const result = await client.query(query, [id]);
+
+      client.release();
+
+      if (result.rowCount > 0) {
+        res
+          .status(200)
+          .json({ success: true, message: "Item deleted successfully" });
+      } else {
+        res
+          .status(404)
+          .json({
+            success: false,
+            message: "Item not found or already deleted",
+          });
       }
+    } catch (error) {
+      console.error("Error executing query:", error);
+      res
+        .status(500)
+        .json({
+          success: false,
+          error: error.message || "Internal server error",
+        });
     }
+  } else {
+    res.status(405).json({ success: false, error: "Method not allowed" });
   }
 }

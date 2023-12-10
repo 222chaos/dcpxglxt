@@ -9,28 +9,34 @@ const TrainingPlanTable = () => {
   const [trainingPlanData, setTrainingPlanData] = useState([]);
 
   const handleSave = async (rowKeys, newData) => {
+    console.log(newData);
     try {
-      const response = await fetch("/api/storage", {
-        method: "POST",
+      const response = await fetch(`/api/updata`, {
+        method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(newData), // 将编辑后的数据发送给服务器
+        body: JSON.stringify(newData),
       });
 
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
 
-      const result = await response.json();
-      console.log("Server response:", result);
+      const updatedData = trainingPlanData.map((item) => {
+        if (item.id === newData.id) {
+          return newData; // 更新对应ID的数据
+        }
+        return item;
+      });
+
+      setTrainingPlanData(updatedData);
       setEditableKeys([]); // 退出所有行的编辑状态
     } catch (error) {
       console.error("There was a problem with the fetch operation:", error);
       // 处理错误，例如显示错误消息给用户
     }
   };
-
   const handleEdit = (id) => {
     const keys = editableKeys.includes(id)
       ? editableKeys.filter((key) => key !== id)
@@ -38,28 +44,58 @@ const TrainingPlanTable = () => {
     setEditableKeys(keys);
   };
 
-  const handleNew = () => {
-    const id = Date.now();
+  const handleNew = async () => {
+    try {
+      const response = await fetch("/api/storage", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({}), // 发送空数据到服务器
+      });
 
-    const newEmptyData = {
-      id,
-      year: "",
-      name: "",
-      type: "",
-      specialty: "",
-      time: "",
-      participants: "",
-      completion: "",
-    };
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
 
-    setTrainingPlanData([...trainingPlanData, newEmptyData]);
-    setEditableKeys([...editableKeys, id]);
+      const newEmptyData = await response.json();
+
+      setTrainingPlanData([newEmptyData, ...trainingPlanData]);
+      setEditableKeys([newEmptyData.id, ...editableKeys]); // 使新行处于编辑状态
+
+      if (actionRef.current) {
+        actionRef.current.reload(); // 刷新表格数据
+      }
+    } catch (error) {
+      console.error("There was a problem with the fetch operation:", error);
+      // 处理错误，例如显示错误消息给用户
+    }
   };
+  const handleDelete = async (id) => {
+    try {
+      const response = await fetch("/api/delete", {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ id }), // 将要删除的项的唯一标识符发送至后端
+      });
 
-  const handleDelete = (id) => {
-    const updatedData = trainingPlanData.filter((item) => item.id !== id);
-    setTrainingPlanData(updatedData);
-    setEditableKeys(editableKeys.filter((key) => key !== id));
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+
+      // 处理成功删除的逻辑，可能是更新前端的数据状态等
+      const updatedData = trainingPlanData.filter((item) => item.id !== id);
+      setTrainingPlanData(updatedData);
+
+      // 可能还需要其他操作，例如刷新表格数据等
+      if (actionRef.current) {
+        actionRef.current.reload();
+      }
+    } catch (error) {
+      console.error("There was a problem with the fetch operation:", error);
+    }
   };
 
   const columns = [
@@ -135,7 +171,7 @@ const TrainingPlanTable = () => {
 
           // 发起数据请求，包括分页和筛选信息
           const data = await fetch(
-            `/api/query?current=${current}&pageSize=${pageSize}&status=true`,
+            `/api/query?current=${current}&pageSize=${pageSize}&status=true&orderBy=id&order=desc`,
             {
               method: "GET",
               // 可以根据实际情况设置其他请求参数

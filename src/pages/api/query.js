@@ -25,7 +25,8 @@ export default async function query(req, res) {
       const resultCount = await client.query(queryCount);
       const total = parseInt(resultCount.rows[0].total);
 
-      const queryData = `SELECT * FROM trainingplans WHERE status = true LIMIT ${parsedPageSize} OFFSET ${offset}`;
+      const queryData = `SELECT * FROM trainingplans WHERE status = true ORDER BY id ASC LIMIT ${parsedPageSize} OFFSET ${offset}`;
+
       const resultData = await client.query(queryData);
 
       client.release();
