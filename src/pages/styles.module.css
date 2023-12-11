@@ -1,0 +1,36 @@
+  .container {
+    display: flex;
+  }
+  
+  .sidebar {
+    flex: 1;
+    border: 1px solid #ccc;
+    padding: 16px;
+    border-radius: 8px;
+    margin-right: 16px;
+  }
+  
+  .maincontent {
+    flex: 6;
+    border: 1px solid #ccc;
+    padding: 16px;
+    border-radius: 8px;
+  }
+  
+  .ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .li {
+    margin-bottom: 8px;
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .li:hover {
+    background-color: #f0f0f0;
+  }
+  

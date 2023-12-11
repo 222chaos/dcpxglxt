@@ -2,6 +2,7 @@ import { useState } from "react";
 import Link from "next/link";
 import TrainingPlanTable from "./TrainingPlanTable";
 import React from "react";
+import styles from "./styles.module.css";
 const HomePage = () => {
   const [selectedFunction, setSelectedFunction] = useState("");
 
@@ -52,85 +53,101 @@ const HomePage = () => {
   return (
     <div>
       <h1>电厂培训管理系统</h1>
-      <div className="sidebar">
-        <h3>功能列表</h3>
-        <ul>
-          <li onClick={() => handleFunctionClick("首页")}>
-            <Link href="#">首页</Link>
-          </li>
-          <li onClick={() => handleFunctionClick("培训计划管理")}>
-            <Link href="#">培训计划管理</Link>
-          </li>
-          <li onClick={() => handleFunctionClick("培训成绩管理")}>
-            <Link href="#">培训成绩管理</Link>
-          </li>
-          <li onClick={() => handleFunctionClick("录入")}>
-            <Link href="#">录入</Link>
-          </li>
-          <li onClick={() => handleFunctionClick("修改")}>
-            <Link href="#">修改</Link>
-          </li>
-          <li onClick={() => handleFunctionClick("查询")}>
-            <Link href="#">查询</Link>
-          </li>
-          <li onClick={() => handleFunctionClick("学员管理")}>
-            <Link href="#">学员管理</Link>
-          </li>
-          <li onClick={() => handleFunctionClick("部门管理")}>
-            <Link href="#">部门管理</Link>
-          </li>
-          <li onClick={() => handleFunctionClick("学员基本信息管理")}>
-            <Link href="#">学员基本信息管理</Link>
-          </li>
-          <li onClick={() => handleFunctionClick("培训计划管理")}>
-            <Link href="#">学习记录管理</Link>
-          </li>
-          <li onClick={() => handleFunctionClick("指纹库管理")}>
-            <Link href="#">指纹库管理</Link>
-          </li>
-          <li onClick={() => handleFunctionClick("系统管理")}>
-            <Link href="#">系统管理</Link>
-          </li>
-          <li onClick={() => handleFunctionClick("用户管理")}>
-            <Link href="#">用户管理</Link>
-          </li>
-          <li onClick={() => handleFunctionClick("字典管理")}>
-            <Link href="#">字典管理</Link>
-          </li>
-        </ul>
+      <div className={styles.container}>
+        <div className={styles.sidebar}>
+          <h3>功能列表</h3>
+          <ul className={styles.ul}>
+            <li
+              className={styles.li}
+              onClick={() => handleFunctionClick("首页")}
+            >
+              <Link href="#">首页</Link>
+            </li>
+            <li
+              className={styles.li}
+              onClick={() => handleFunctionClick("培训计划管理")}
+            >
+              <Link href="#">培训计划管理</Link>
+            </li>
+            <li
+              className={styles.li}
+              onClick={() => handleFunctionClick("培训成绩管理")}
+            >
+              <Link href="#">培训成绩管理</Link>
+            </li>
+            <li
+              className={styles.li}
+              onClick={() => handleFunctionClick("录入")}
+            >
+              <Link href="#">录入</Link>
+            </li>
+            <li
+              className={styles.li}
+              onClick={() => handleFunctionClick("修改")}
+            >
+              <Link href="#">修改</Link>
+            </li>
+            <li
+              className={styles.li}
+              onClick={() => handleFunctionClick("查询")}
+            >
+              <Link href="#">查询</Link>
+            </li>
+            <li
+              className={styles.li}
+              onClick={() => handleFunctionClick("学员管理")}
+            >
+              <Link href="#">学员管理</Link>
+            </li>
+            <li
+              className={styles.li}
+              onClick={() => handleFunctionClick("部门管理")}
+            >
+              <Link href="#">部门管理</Link>
+            </li>
+            <li
+              className={styles.li}
+              onClick={() => handleFunctionClick("学员基本信息管理")}
+            >
+              <Link href="#">学员基本信息管理</Link>
+            </li>
+            <li
+              className={styles.li}
+              onClick={() => handleFunctionClick("培训计划管理")}
+            >
+              <Link href="#">学习记录管理</Link>
+            </li>
+            <li
+              className={styles.li}
+              onClick={() => handleFunctionClick("指纹库管理")}
+            >
+              <Link href="#">指纹库管理</Link>
+            </li>
+            <li
+              className={styles.li}
+              onClick={() => handleFunctionClick("系统管理")}
+            >
+              <Link href="#">系统管理</Link>
+            </li>
+            <li
+              className={styles.li}
+              onClick={() => handleFunctionClick("用户管理")}
+            >
+              <Link href="#">用户管理</Link>
+            </li>
+            <li
+              className={styles.li}
+              onClick={() => handleFunctionClick("字典管理")}
+            >
+              <Link href="#">字典管理</Link>
+            </li>
+          </ul>
+        </div>
+        <div className={styles.maincontent}>
+          <h2> 欢迎使用电厂培训管理系统</h2>
+          {renderFunctionContent()}
+        </div>
       </div>
-      <div className="main-content">
-        <h2>欢迎使用电厂培训管理系统</h2>
-        {renderFunctionContent()}
-      </div>
-      <style jsx>{`
-        .sidebar {
-          float: left;
-          width: 10%;
-          border: 1px solid #ccc;
-          padding: 8px;
-        }
-        .main-content {
-          float: left;
-          width: 80%;
-          margin-left: 16px;
-          border: 1px solid #ccc;
-        }
-        ul {
-          list-style: none;
-          padding: 0;
-        }
-        li {
-          margin-bottom: 8px;
-          cursor: pointer;
-          padding: 5px;
-          border-radius: 5px;
-          transition: background-color 0.3s ease;
-        }
-        li:hover {
-          background-color: #f0f0f0;
-        }
-      `}</style>
     </div>
   );
 };

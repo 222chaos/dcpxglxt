@@ -109,22 +109,39 @@ const TrainingPlanTable = () => {
       title: "年度",
       dataIndex: "year",
       width: 72,
+      valueEnum: {
+        2021: { text: "2021" },
+        2022: { text: "2022" },
+        2023: { text: "2023" },
+      },
     },
     {
       title: "培训计划名称",
       dataIndex: "name",
       width: 100,
+      search: false,
     },
     {
-      title: "培训类型",
+      title: "培训计划类型",
       dataIndex: "type",
-      search: false,
       width: 100,
+      valueEnum: {
+        新员工入厂培训: { text: "新员工入厂培训" },
+        中层管理人员培训: { text: "中层管理人员培训" },
+        班组长培训: { text: "班组长培训" },
+      },
     },
     {
       title: "培训专业",
       dataIndex: "specialty",
       width: 100,
+      valueEnum: {
+        电气: { text: "电气" },
+        汽机: { text: "汽机" },
+        锅炉: { text: "锅炉" },
+        化水: { text: "化水" },
+        燃运: { text: "燃运" },
+      },
     },
     {
       title: "培训时间",
@@ -142,6 +159,11 @@ const TrainingPlanTable = () => {
       title: "完成情况",
       dataIndex: "completion",
       width: 100,
+      valueEnum: {
+        未培训: { text: "未培训" },
+        培训中: { text: "培训中" },
+        已培训: { text: "已培训" },
+      },
     },
     {
       title: "操作",
@@ -164,19 +186,49 @@ const TrainingPlanTable = () => {
       <ProTable
         columns={columns}
         actionRef={actionRef}
+        pagination={{
+          pageSize: 8,
+        }}
+        search={{
+          labelWidth: 100,
+          defaultCollapsed: false,
+          span: 6,
+          collapseRender: false,
+        }}
         request={async (params, _) => {
           console.log(params);
 
-          const { current, pageSize } = params;
+          const { current, pageSize, year, type, specialty, completion } =
+            params;
 
-          // 发起数据请求，包括分页和筛选信息
-          const data = await fetch(
-            `/api/query?current=${current}&pageSize=${pageSize}&status=true&orderBy=id&order=desc`,
-            {
-              method: "GET",
-              // 可以根据实际情况设置其他请求参数
-            }
-          );
+          // 将四项数据传递到 API
+          const baseApiUrl = "/api/query";
+          let apiUrl = `${baseApiUrl}?current=${current}&pageSize=${pageSize}&status=true&orderBy=id&order=desc`;
+
+          // 检查并添加 year 参数
+          if (year) {
+            apiUrl += `&year=${year}`;
+          }
+
+          // 检查并添加 type 参数
+          if (type) {
+            apiUrl += `&type=${type}`;
+          }
+
+          // 检查并添加 specialty 参数
+          if (specialty) {
+            apiUrl += `&specialty=${specialty}`;
+          }
+
+          // 检查并添加 completion 参数
+          if (completion) {
+            apiUrl += `&completion=${completion}`;
+          }
+
+          const data = await fetch(apiUrl, {
+            method: "GET",
+            // 其他请求参数
+          });
 
           const responseData = await data.json();
 
