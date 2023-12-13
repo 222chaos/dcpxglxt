@@ -2,16 +2,16 @@ import React, { useRef, useState } from "react";
 import { Button } from "antd";
 import ProTable from "@ant-design/pro-table";
 import querystring from "querystring";
-const TrainingPlanTable = () => {
+const EmployeeManagement = () => {
   const actionRef = useRef();
 
   const [editableKeys, setEditableKeys] = useState([]);
-  const [trainingPlanData, setTrainingPlanData] = useState([]);
+  const [employeeData, setEmployeeData] = useState([]);
 
   const handleSave = async (rowKeys, newData) => {
     console.log(newData);
     try {
-      const response = await fetch(`/api/update_1`, {
+      const response = await fetch(`/api/update_2`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -23,20 +23,21 @@ const TrainingPlanTable = () => {
         throw new Error("Network response was not ok");
       }
 
-      const updatedData = trainingPlanData.map((item) => {
+      const updatedData = employeeData.map((item) => {
         if (item.id === newData.id) {
-          return newData; // 更新对应ID的数据
+          return newData; // Update data for corresponding ID
         }
         return item;
       });
 
-      setTrainingPlanData(updatedData);
-      setEditableKeys([]); // 退出所有行的编辑状态
+      setEmployeeData(updatedData);
+      setEditableKeys([]); // Exit edit mode for all rows
     } catch (error) {
       console.error("There was a problem with the fetch operation:", error);
-      // 处理错误，例如显示错误消息给用户
+      // Handle errors, e.g., display error message to the user
     }
   };
+
   const handleEdit = (id) => {
     const keys = editableKeys.includes(id)
       ? editableKeys.filter((key) => key !== id)
@@ -46,12 +47,12 @@ const TrainingPlanTable = () => {
 
   const handleNew = async () => {
     try {
-      const response = await fetch("/api/storage_1", {
+      const response = await fetch("/api/storage_2", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({}), // 发送空数据到服务器
+        body: JSON.stringify({}),
       });
 
       if (!response.ok) {
@@ -60,36 +61,37 @@ const TrainingPlanTable = () => {
 
       const newEmptyData = await response.json();
 
-      setTrainingPlanData([newEmptyData, ...trainingPlanData]);
-      setEditableKeys([newEmptyData.id, ...editableKeys]); // 使新行处于编辑状态
+      setEmployeeData([newEmptyData, ...employeeData]);
+      setEditableKeys([newEmptyData.id, ...editableKeys]);
 
       if (actionRef.current) {
-        actionRef.current.reload(); // 刷新表格数据
+        actionRef.current.reload();
       }
     } catch (error) {
       console.error("There was a problem with the fetch operation:", error);
-      // 处理错误，例如显示错误消息给用户
+      // 处理错误情况，例如向用户显示错误消息
     }
   };
+
   const handleDelete = async (id) => {
     try {
-      const response = await fetch("/api/delete_1", {
+      const response = await fetch("/api/delete_2", {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ id }), // 将要删除的项的唯一标识符发送至后端
+        body: JSON.stringify({ id }), // Send unique identifier of the item to delete to the backend
       });
 
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
 
-      // 处理成功删除的逻辑，可能是更新前端的数据状态等
-      const updatedData = trainingPlanData.filter((item) => item.id !== id);
-      setTrainingPlanData(updatedData);
+      // Logic for successful deletion, might involve updating frontend data state, etc.
+      const updatedData = employeeData.filter((item) => item.id !== id);
+      setEmployeeData(updatedData);
 
-      // 可能还需要其他操作，例如刷新表格数据等
+      // Additional operations like refreshing table data, etc.
       if (actionRef.current) {
         actionRef.current.reload();
       }
@@ -106,65 +108,16 @@ const TrainingPlanTable = () => {
       width: 48,
     },
     {
-      title: "年度",
-      dataIndex: "year",
-      width: 72,
-      valueEnum: {
-        2021: { text: "2021" },
-        2022: { text: "2022" },
-        2023: { text: "2023" },
-      },
-    },
-    {
-      title: "培训计划名称",
+      title: "姓名",
       dataIndex: "name",
       width: 100,
-      search: false,
     },
     {
-      title: "培训计划类型",
-      dataIndex: "type",
-      width: 100,
-      valueEnum: {
-        新员工入厂培训: { text: "新员工入厂培训" },
-        中层管理人员培训: { text: "中层管理人员培训" },
-        班组长培训: { text: "班组长培训" },
-      },
+      title: "身份证号",
+      dataIndex: "id_card_number",
+      width: 150,
     },
-    {
-      title: "培训专业",
-      dataIndex: "specialty",
-      width: 100,
-      valueEnum: {
-        电气: { text: "电气" },
-        汽机: { text: "汽机" },
-        锅炉: { text: "锅炉" },
-        化水: { text: "化水" },
-        燃运: { text: "燃运" },
-      },
-    },
-    {
-      title: "培训时间",
-      dataIndex: "time",
-      search: false,
-      width: 100,
-    },
-    {
-      title: "培训人数",
-      dataIndex: "participants",
-      search: false,
-      width: 100,
-    },
-    {
-      title: "完成情况",
-      dataIndex: "completion",
-      width: 100,
-      valueEnum: {
-        未培训: { text: "未培训" },
-        培训中: { text: "培训中" },
-        已培训: { text: "已培训" },
-      },
-    },
+
     {
       title: "操作",
       valueType: "option",
@@ -189,20 +142,21 @@ const TrainingPlanTable = () => {
         pagination={{
           pageSize: 8,
         }}
-        search={{
+        /* search={{
           labelWidth: 100,
           defaultCollapsed: false,
           span: 6,
           collapseRender: false,
         }}
+        */
         request={async (params, _) => {
           console.log(params);
           const queryString = querystring.stringify(params);
-          const apiUrl = `/api/query_1?${queryString}`;
+          const apiUrl = `/api/query_2?${queryString}`;
 
           const data = await fetch(apiUrl, {
             method: "GET",
-            // 其他请求参数
+            // Other request parameters
           });
 
           const responseData = await data.json();
@@ -231,4 +185,4 @@ const TrainingPlanTable = () => {
   );
 };
 
-export default TrainingPlanTable;
+export default EmployeeManagement;

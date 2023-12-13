@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import TrainingPlanTable from "./TrainingPlanTable";
+import EmployeeManagement from "./EmployeeManagement";
 import React from "react";
 import styles from "./styles.module.css";
 const HomePage = () => {
@@ -14,37 +15,23 @@ const HomePage = () => {
     switch (selectedFunction) {
       case "首页":
         return <div>首页内容</div>;
-      case "培训计划管理":
+      case "计划管理":
         return (
           <div>
             <TrainingPlanTable />
           </div>
         );
-
-      case "培训成绩管理":
-        return <div>培训成绩管理内容</div>;
-      case "录入":
-        return <div>录入内容</div>;
-      case "修改":
-        return <div>修改内容</div>;
-      case "查询":
-        return <div>查询内容</div>;
-      case "学员管理":
-        return <div>学员管理内容</div>;
+      case "员工管理":
+        return (
+          <div>
+            <EmployeeManagement />
+          </div>
+        );
       case "部门管理":
         return <div>部门管理内容</div>;
-      case "学员基本信息管理":
-        return <div>学员基本信息管理内容</div>;
-      case "指纹库管理":
-        return <div>指纹库管理内容</div>;
-      case "系统管理":
-        return <div>系统管理内容</div>;
-      case "用户管理":
-        return <div>用户管理内容</div>;
-      case "字典管理":
-        return <div>字典管理内容</div>;
+      case "培训管理":
+        return <div>培训成绩管理内容</div>;
 
-      // 添加其他功能的内容
       default:
         return <div>选择左侧功能以开始操作。</div>;
     }
@@ -65,81 +52,27 @@ const HomePage = () => {
             </li>
             <li
               className={styles.li}
-              onClick={() => handleFunctionClick("培训计划管理")}
+              onClick={() => handleFunctionClick("计划管理")}
             >
-              <Link href="#">培训计划管理</Link>
+              <Link href="#">计划管理</Link>
             </li>
             <li
               className={styles.li}
-              onClick={() => handleFunctionClick("培训成绩管理")}
+              onClick={() => handleFunctionClick("员工管理")}
             >
-              <Link href="#">培训成绩管理</Link>
+              <Link href="#">员工管理</Link>
             </li>
             <li
               className={styles.li}
-              onClick={() => handleFunctionClick("录入")}
+              onClick={() => handleFunctionClick("培训管理")}
             >
-              <Link href="#">录入</Link>
-            </li>
-            <li
-              className={styles.li}
-              onClick={() => handleFunctionClick("修改")}
-            >
-              <Link href="#">修改</Link>
-            </li>
-            <li
-              className={styles.li}
-              onClick={() => handleFunctionClick("查询")}
-            >
-              <Link href="#">查询</Link>
-            </li>
-            <li
-              className={styles.li}
-              onClick={() => handleFunctionClick("学员管理")}
-            >
-              <Link href="#">学员管理</Link>
+              <Link href="#">培训管理</Link>
             </li>
             <li
               className={styles.li}
               onClick={() => handleFunctionClick("部门管理")}
             >
               <Link href="#">部门管理</Link>
-            </li>
-            <li
-              className={styles.li}
-              onClick={() => handleFunctionClick("学员基本信息管理")}
-            >
-              <Link href="#">学员基本信息管理</Link>
-            </li>
-            <li
-              className={styles.li}
-              onClick={() => handleFunctionClick("培训计划管理")}
-            >
-              <Link href="#">学习记录管理</Link>
-            </li>
-            <li
-              className={styles.li}
-              onClick={() => handleFunctionClick("指纹库管理")}
-            >
-              <Link href="#">指纹库管理</Link>
-            </li>
-            <li
-              className={styles.li}
-              onClick={() => handleFunctionClick("系统管理")}
-            >
-              <Link href="#">系统管理</Link>
-            </li>
-            <li
-              className={styles.li}
-              onClick={() => handleFunctionClick("用户管理")}
-            >
-              <Link href="#">用户管理</Link>
-            </li>
-            <li
-              className={styles.li}
-              onClick={() => handleFunctionClick("字典管理")}
-            >
-              <Link href="#">字典管理</Link>
             </li>
           </ul>
         </div>
