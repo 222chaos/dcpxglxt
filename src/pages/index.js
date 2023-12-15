@@ -3,6 +3,7 @@ import Link from "next/link";
 import TrainingPlanTable from "./TrainingPlanTable";
 import EmployeeManagement from "./EmployeeManagement";
 import TrainingManagement from "./TrainingManagemeng";
+import DepartmentManagement from "./DepartmentManagement";
 import React from "react";
 import styles from "./styles.module.css";
 const HomePage = () => {
@@ -28,14 +29,18 @@ const HomePage = () => {
             <EmployeeManagement />
           </div>
         );
-      case "部门管理":
+      case "培训管理":
         return (
           <div>
             <TrainingManagement />
           </div>
         );
-      case "培训管理":
-        return <div>培训成绩管理内容</div>;
+      case "部门管理":
+        return (
+          <div>
+            <DepartmentManagement />
+          </div>
+        );
 
       default:
         return <div>选择左侧功能以开始操作。</div>;
