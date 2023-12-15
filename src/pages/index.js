@@ -2,6 +2,7 @@ import { useState } from "react";
 import Link from "next/link";
 import TrainingPlanTable from "./TrainingPlanTable";
 import EmployeeManagement from "./EmployeeManagement";
+import TrainingManagement from "./TrainingManagemeng";
 import React from "react";
 import styles from "./styles.module.css";
 const HomePage = () => {
@@ -28,7 +29,11 @@ const HomePage = () => {
           </div>
         );
       case "部门管理":
-        return <div>部门管理内容</div>;
+        return (
+          <div>
+            <TrainingManagement />
+          </div>
+        );
       case "培训管理":
         return <div>培训成绩管理内容</div>;
 
@@ -64,15 +69,15 @@ const HomePage = () => {
             </li>
             <li
               className={styles.li}
-              onClick={() => handleFunctionClick("培训管理")}
-            >
-              <Link href="#">培训管理</Link>
-            </li>
-            <li
-              className={styles.li}
               onClick={() => handleFunctionClick("部门管理")}
             >
               <Link href="#">部门管理</Link>
+            </li>
+            <li
+              className={styles.li}
+              onClick={() => handleFunctionClick("培训管理")}
+            >
+              <Link href="#">培训管理</Link>
             </li>
           </ul>
         </div>
