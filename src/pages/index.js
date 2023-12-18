@@ -24,7 +24,18 @@ const HomePage = () => {
     // 如果用户已登录，显示其他内容
     switch (selectedFunction) {
       case "首页":
-        return <div>首页内容</div>;
+        return (
+          <div>
+            <h2>欢迎来到电厂培训管理系统！</h2>
+            <p>
+              这个系统旨在提供一套完整的培训管理解决方案，让您能够高效地管理培训计划、员工信息以及部门资源。
+            </p>
+            <p>
+              通过侧边栏功能列表，您可以轻松访问不同的模块，包括计划管理、员工管理、部门管理和培训管理。点击相应功能以开始操作。
+            </p>
+            <p>对于任何疑问或帮助，您可以查看系统文档或联系管理员获取支持。</p>
+          </div>
+        );
       case "计划管理":
         return (
           <div>
@@ -100,10 +111,7 @@ const HomePage = () => {
                 </li>
               </ul>
             </div>
-            <div className={styles.maincontent}>
-              <h2> 欢迎使用电厂培训管理系统</h2>
-              {renderFunctionContent()}
-            </div>
+            <div className={styles.maincontent}>{renderFunctionContent()}</div>
           </>
         )}
       </div>
