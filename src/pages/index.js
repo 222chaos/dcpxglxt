@@ -4,11 +4,11 @@ import TrainingPlanTable from "./TrainingPlanTable";
 import EmployeeManagement from "./EmployeeManagement";
 import TrainingManagement from "./TrainingManagement";
 import DepartmentManagement from "./DepartmentManagement";
-import Login from "./Login"; // 导入登录组件
+import Login from "./Login";
 import styles from "./styles.module.css";
 
 const HomePage = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // 添加登录状态
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [selectedFunction, setSelectedFunction] = useState("");
 
   const handleFunctionClick = (functionName) => {
