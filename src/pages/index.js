@@ -68,7 +68,7 @@ const HomePage = () => {
 
   return (
     <div>
-      <h1>电厂培训管理系统</h1>
+      <h1>职工培训管理系统</h1>
       <div className={styles.container}>
         {!isLoggedIn ? (
           // 如果用户未登录，不显示侧边栏和其他内容

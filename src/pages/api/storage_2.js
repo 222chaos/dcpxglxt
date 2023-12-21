@@ -15,7 +15,7 @@ export default async function handler(req, res) {
         VALUES ($1, $2 /* Add more placeholders as needed */)
         RETURNING *
       `;
-      const values = [name, id_card_number /* Add corresponding values here */];
+      const values = [name, id_card_number];
       const result = await client.query(query, values);
 
       client.release();

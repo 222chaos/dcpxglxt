@@ -2,6 +2,7 @@ import React, { useRef, useState } from "react";
 import { Button } from "antd";
 import ProTable from "@ant-design/pro-table";
 import querystring from "querystring";
+
 const EmployeeManagement = () => {
   const actionRef = useRef();
 
@@ -25,16 +26,15 @@ const EmployeeManagement = () => {
 
       const updatedData = employeeData.map((item) => {
         if (item.id === newData.id) {
-          return newData; // Update data for corresponding ID
+          return newData;
         }
         return item;
       });
 
       setEmployeeData(updatedData);
-      setEditableKeys([]); // Exit edit mode for all rows
+      setEditableKeys([]);
     } catch (error) {
       console.error("There was a problem with the fetch operation:", error);
-      // Handle errors, e.g., display error message to the user
     }
   };
 
@@ -80,18 +80,16 @@ const EmployeeManagement = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ id }), // Send unique identifier of the item to delete to the backend
+        body: JSON.stringify({ id }),
       });
 
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
 
-      // Logic for successful deletion, might involve updating frontend data state, etc.
       const updatedData = employeeData.filter((item) => item.id !== id);
       setEmployeeData(updatedData);
 
-      // Additional operations like refreshing table data, etc.
       if (actionRef.current) {
         actionRef.current.reload();
       }
@@ -156,7 +154,6 @@ const EmployeeManagement = () => {
 
           const data = await fetch(apiUrl, {
             method: "GET",
-            // Other request parameters
           });
 
           const responseData = await data.json();

@@ -8,10 +8,10 @@ const pool = new Pool({
 export default async function query(req, res) {
   if (req.method === "GET") {
     try {
-      const parsedUrl = req.url.split("?"); // Separating path and query parameters
-      const queryParameters = parsedUrl[1]; // Getting the query string part
+      const parsedUrl = req.url.split("?");
+      const queryParameters = parsedUrl[1];
 
-      const queryParamsObject = querystring.parse(queryParameters); // Parsing query parameters using querystring
+      const queryParamsObject = querystring.parse(queryParameters);
 
       const { current, pageSize, name, id_card_number } = queryParamsObject;
       const parsedCurrent = parseInt(current, 10);
@@ -25,17 +25,15 @@ export default async function query(req, res) {
 
       const client = await pool.connect();
 
-      let filterQuery = "WHERE status = true"; // Adjust WHERE condition based on your actual scenario
+      let filterQuery = "WHERE status = true";
 
       if (name) {
-        filterQuery += ` AND name = '${name}'`; // Add query condition based on the 'name' parameter passed
+        filterQuery += ` AND name = '${name}'`;
       }
 
       if (id_card_number) {
-        filterQuery += ` AND id_card_number = '${id_card_number}'`; // Add query condition based on the 'id_card_number' parameter passed
+        filterQuery += ` AND id_card_number = '${id_card_number}'`;
       }
-
-      // Add more query conditions based on your requirements
 
       const queryCount = `SELECT COUNT(*) AS total FROM employeemanagement ${filterQuery}`;
       const resultCount = await client.query(queryCount);

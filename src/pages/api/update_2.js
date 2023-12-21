@@ -6,8 +6,7 @@ const pool = new Pool({
 
 export default async function handler(req, res) {
   if (req.method === "PUT") {
-    const { id, name, id_card_number /* Add more fields as needed */ } =
-      req.body;
+    const { id, name, id_card_number } = req.body;
 
     try {
       const client = await pool.connect();

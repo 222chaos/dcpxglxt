@@ -13,13 +13,7 @@ export default async function query_3(req, res) {
 
       const queryParamsObject = querystring.parse(queryParameters);
 
-      const {
-        current,
-        pageSize,
-        name,
-        department,
-        /* Add more parameters if needed */
-      } = queryParamsObject;
+      const { current, pageSize, name, department } = queryParamsObject;
 
       const parsedCurrent = parseInt(current, 10);
       const parsedPageSize = parseInt(pageSize, 10);
@@ -41,8 +35,6 @@ export default async function query_3(req, res) {
       if (department) {
         filterQuery += ` AND department = '${department}'`;
       }
-
-      // Add more conditions for other parameters if necessary
 
       const queryCount = `SELECT COUNT(*) AS total FROM trainingmanagement ${filterQuery}`;
       const resultCount = await client.query(queryCount);
