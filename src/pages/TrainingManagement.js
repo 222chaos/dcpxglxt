@@ -41,7 +41,7 @@ const TrainingManagement = () => {
     const keys = editableKeys.includes(id)
       ? editableKeys.filter((key) => key !== id)
       : [...editableKeys, id];
-    console.log("Editable Keys:", keys); // 添加日志以观察编辑状态的变化
+    console.log("Editable Keys:", keys);
     setEditableKeys(keys);
   };
 
