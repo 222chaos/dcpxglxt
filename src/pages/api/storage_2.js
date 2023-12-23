@@ -11,8 +11,8 @@ export default async function handler(req, res) {
     try {
       const client = await pool.connect();
       const query = `
-        INSERT INTO EmployeeManagement (Name, Id_card_number /* Add more columns as needed */)
-        VALUES ($1, $2 /* Add more placeholders as needed */)
+        INSERT INTO EmployeeManagement (Name, Id_card_number )
+        VALUES ($1, $2 )
         RETURNING *
       `;
       const values = [name, id_card_number];

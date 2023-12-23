@@ -69,7 +69,6 @@ const EmployeeManagement = () => {
       }
     } catch (error) {
       console.error("There was a problem with the fetch operation:", error);
-      // 处理错误情况，例如向用户显示错误消息
     }
   };
 
