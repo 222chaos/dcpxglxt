@@ -17,16 +17,14 @@ const HomePage = () => {
 
   const renderFunctionContent = () => {
     if (!isLoggedIn) {
-      // 如果用户未登录，显示登录组件
       return <Login setIsLoggedIn={setIsLoggedIn} />;
     }
 
-    // 如果用户已登录，显示其他内容
     switch (selectedFunction) {
       case "首页":
         return (
           <div>
-            <h2>欢迎来到电厂培训管理系统！</h2>
+            <h2>欢迎来到电厂职工培训管理系统！</h2>
             <p>
               这个系统旨在提供一套完整的培训管理解决方案，让您能够高效地管理培训计划、员工信息以及部门资源。
             </p>
@@ -68,7 +66,7 @@ const HomePage = () => {
 
   return (
     <div>
-      <h1>职工培训管理系统</h1>
+      <h1>电厂职工培训管理系统</h1>
       <div className={styles.container}>
         {!isLoggedIn ? (
           // 如果用户未登录，不显示侧边栏和其他内容
